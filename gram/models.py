@@ -12,5 +12,11 @@ class image(models.Model):
     comments= models.TextField(max_length=150)
      # likes=
 
+class Profile(models.Model):
+    first_name = models.TextField(max_length=50)
+    last_name = models.TextField(max_length=50)
+    profile_picture = models.ImageField(upload_to='prof_images')
+    bio = models.TextField(max_length=120)
+
     def __str__(self):
         return self.caption
