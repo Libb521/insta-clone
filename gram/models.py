@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 
 class image(models.Model):
     image= models.ImageField(blank=True, null=True)
-    image_name= models.TextField(max_length=70)
-    image_caption= models.TextField(max_length=150)
+    image_name= models.TextField(max_length=50)
+    image_caption= models.TextField(max_length=100)
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
-    likes = models.PositiveIntegerField(User, blank=False, default=0)
+    likes = models.PositiveIntegerField('Likes', blank=False, default=0)
     comments= models.TextField(max_length=150)
      # likes=
 
