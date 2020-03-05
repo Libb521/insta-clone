@@ -9,3 +9,6 @@ class image(models.Model):
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
     # likes=
     # comments=
+
+    def __str__(self):
+        return self.caption
