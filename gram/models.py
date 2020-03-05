@@ -7,8 +7,8 @@ class image(models.Model):
     image_name= models.TextField(max_length=70)
     image_caption= models.TextField(max_length=150)
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
-    # likes=
-    # comments=
+    comments= models.TextField(max_length=150)
+     # likes=
 
     def __str__(self):
         return self.caption
