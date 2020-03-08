@@ -8,8 +8,6 @@ class image(models.Model):
     image_name= models.CharField(max_length=50)
     image_caption= models.CharField(max_length=100)
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
-    
-    comments= models.TextField(max_length=150)
 
     def __str__(self):
         return str(self.name)
