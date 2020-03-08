@@ -7,10 +7,12 @@ class image(models.Model):
     image= models.ImageField(blank=True, null=True)
     image_name= models.CharField(max_length=50)
     image_caption= models.CharField(max_length=100)
+    tag_someone = models.CharField(max_length=50, blank=True)
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
-
+    likes = models.PositiveIntegerField('Likes', blank=False, default=0)
+    
     def __str__(self):
-        return str(self.name)
+        return self.image_caption
 
     def save_image(self):
         self.save()
@@ -24,15 +26,17 @@ class image(models.Model):
     
 
 class Profile(models.Model):
+    User = models.OneToOneField(User,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    profile_picture = models.ImageField(upload_to='prof_images')
+    profile_picture = models.ImageField(upload_to='images')
+    profile_avatar = models.ImageField(upload_to='Apic/')
     bio = models.TextField(max_length=200)
 
     def __str__(self):
         return str(self.bio)
+        
     class Meta:
-
         ordering = ['bio']
 
     def profile_save(self):
@@ -47,9 +51,9 @@ class Profile(models.Model):
         return profiles
 
 class Comment(models.Model):
-    image =  models.ForeignKey(image, blank=True, on_delete=models.CASCADE, related_name='comment')
-    commenter = models.CharField(max_length=100)
-    comment = models.TextField()
+    commented_image =  models.ForeignKey(image, blank=True, on_delete=models.CASCADE, related_name='comment')
+    author = models.CharField(max_length=100)
+    comment_post = models.TextField()
 
     def save_comment(self):
         self.save()
@@ -61,8 +65,4 @@ class Comment(models.Model):
         comments = comment.objects.filter(image_pk=id)
         return comments
     def __str__(self):
-        return str(str.comment)
-
-class Likes(models.Model):
-    likes = models.PositiveIntegerField('Likes', blank=False, default=0)
-    image =  models.ForeignKey(image, blank=True, on_delete=models.CASCADE, related_name='likes') 
+        return self.author
