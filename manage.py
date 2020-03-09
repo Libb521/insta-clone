@@ -4,6 +4,7 @@ import os
 import sys
 
 if __name__ == '__main__':
+
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'instagram.settings')
     try:
