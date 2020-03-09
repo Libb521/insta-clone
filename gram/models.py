@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -34,7 +35,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=200)
 
     def __str__(self):
-        return str(self.bio)
+        return self.bio
         
     class Meta:
         ordering = ['bio']
@@ -62,7 +63,7 @@ class Comment(models.Model):
         delete.comment()
     @classmethod
     def get_profile_comments(cls, profile):
-        comments = comment.objects.filter(image_pk=id)
+        comments = comment.objects.filter(image_pk=profile)
         return comments
     def __str__(self):
         return self.author

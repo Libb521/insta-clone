@@ -19,5 +19,5 @@ from gram import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('gram/',include('gram.urls'))
+    path('',include('gram.urls'))
 ]
