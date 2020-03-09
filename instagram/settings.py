@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gram',
     'bootstrap3',
-    'whitenoise.runserver_nonstatic',
 ]
 
 MIDDLEWARE = [
