@@ -7,7 +7,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     profile_picture = models.ImageField(upload_to='images')
-    profile_avatar = models.ImageField(upload_to='Apic/')
+    profile_avatar = models.ImageField(upload_to='images')
     bio = models.TextField(max_length=200)
 
     @classmethod
