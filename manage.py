@@ -4,6 +4,7 @@ import os
 import sys
 
 if __name__ == '__main__':
+    main()
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'instagram.settings')
@@ -16,6 +17,3 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
-
-
