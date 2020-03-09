@@ -13,7 +13,8 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def welcome(request):
-    return render(request, 'welcome.html')
+    images=image.objects.all()
+    return render(request, 'welcome.html',{})
 
 def profile(request):
     current_user = request.current_user
@@ -54,14 +55,16 @@ def home(request):
 def search(request):
     profiles = User.objects.all()
 
-    if 'username' in request.GET and request.GET['username']:
-        search_term = request.GET.get('username')
+    if 'image' in request.GET and request.GET['image']:
+        search_term = request.GET.get('image')
         results = User.objects.filter(username__icontains=search_term)
         print(results)
 
-        return render(request,'concept/results.html',locals())
+        return render(request,'concept/search.html',locals())
 
-    return redirect(home)
+    else:
+        message = "Have not found what you are looking for"
+        return render(request, 'concept/search.html', {"message":message})
 
 def display_profile(request, id):
     seekuser=User.objects.filter(id=id).first()

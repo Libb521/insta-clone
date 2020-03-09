@@ -82,7 +82,7 @@ if config('MODE')=="dev":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'instagram',
+            'NAME': 'gram',
             'USER': 'moringaschool',
             'PASSWORD': '1111',
         }
