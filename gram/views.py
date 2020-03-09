@@ -4,7 +4,7 @@ from django.conf import settings
 from django.urls import path, include
 from django.contrib.auth import authenticate, login, logout
 # from .forms import PostForm
-# from .models import image, Profile, Comment
+from .models import image, Profile, Comment
 from . import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -12,10 +12,6 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-def welcome(request):
-    images=image.objects.all()
-    return render(request, 'welcome.html',{})
-
 def profile(request):
     current_user = request.current_user
     if request.method == 'POST':
@@ -74,6 +70,10 @@ def display_profile(request, id):
 
     usersss = User.objects.get(id=id)
     people=User.objects.all()
-    
+  
 
     return render(request,'concept/profile.html',locals())
+
+def welcome(request):
+    images= image.objects.all()
+    return render(request, 'welcome.html',{"images":images})
