@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+if __name__ == '__main__':
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'instagram.settings')
     try:
@@ -17,5 +17,4 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
-    main()
+
