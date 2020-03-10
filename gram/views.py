@@ -80,7 +80,6 @@ def display_profile(request, id):
 
     return render(request,'concept/profile.html',locals())
 
-@login_required(login_url='/accounts/login/')
 def welcome(request):
     images= image.objects.all()
     return render(request, 'welcome.html',{"images":images})

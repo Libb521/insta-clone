@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_forms',
     'widget_tweaks',
+    'form_tags',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 django_heroku.settings(locals())
 
 LOGOUT_REDIRECT_URL = 'welcome'
+LOGIN_REDIRECT_URL = 'welcome'
