@@ -2,30 +2,33 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
+  
+  <title> Instagram </title>
 
-  {% if title %}
-  <title>Instagram - {{title}}</title>
-  {% else %}
-    <title> Instagram </title>
-  {% endif %}
 
   {% block styles %}
   {% bootstrap_css %}
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link href="https://fonts.googleapis.com/css?family=Jacques+Francois+Shadow|UnifrakturCook:700&display=swap" rel="stylesheet">
-{% endblock %}
+  <link href="https://fonts.googleapis.com/css?family=Jacques+Francois+Shadow|UnifrakturCook:700&display=swap"
+    rel="stylesheet">
+  {% endblock %}
 
 </head>
-<body>
-    {% include "navbar.html" %}
-    {% block content %} <h1>InstaNews</h1> {%endblock%}
 
-    {% block scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- {% bootstrap_javascript %}
-{% endblock %}
+<body>
+  {% include "navbar.html" %}
+  {% block content %}
+  <h1>InstaNews</h1>
+  {%endblock%}
+
+  {% block scripts %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  {% bootstrap_javascript %}
+  {% endblock %}
 
 </body>
+
 </html>

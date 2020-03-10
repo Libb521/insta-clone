@@ -1,9 +1,11 @@
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
-from django.urls import path, include
+from django.urls import include, path
 from django.contrib.auth import authenticate, login, logout
-# from .forms import PostForm
+from .forms import *
 from .models import image, Profile, Comment
 from . import models
 from django.contrib.auth.models import User
@@ -12,8 +14,9 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def profile(request):
-    current_user = request.current_user
+    # current_user = request.current_user
     if request.method == 'POST':
         form = ProfileForm(request.POST,request.FILES)
         if form.is_valid():
@@ -24,6 +27,7 @@ def profile(request):
         form=ProfileForm()
     return render(request, 'concept/new.html', locals())
 
+@login_required(login_url='/accounts/login/')
 def add_image(request):
     current_user = request.user
     if request.method == 'POST':
@@ -39,6 +43,7 @@ def add_image(request):
 
     return render(request,'concept/image.html',locals())
 
+@login_required(login_url='/accounts/login/')
 def home(request):
     current_user = request.user
     all_images = Image.objects.all()
@@ -62,6 +67,7 @@ def search(request):
         message = "Have not found what you are looking for"
         return render(request, 'concept/search.html', {"message":message})
 
+@login_required(login_url='accounts/login/')
 def display_profile(request, id):
     seekuser=User.objects.filter(id=id).first()
     profile = seekuser.profile
@@ -74,6 +80,57 @@ def display_profile(request, id):
 
     return render(request,'concept/profile.html',locals())
 
+@login_required(login_url='/accounts/login/')
 def welcome(request):
     images= image.objects.all()
     return render(request, 'welcome.html',{"images":images})
+
+def comment(request,image_id):
+    current_user=request.user
+    image = Image.objects.get(id=image_id)
+    profile_owner = User.objects.get(username=current_user)
+    comments = Comment.objects.all()
+    print(comments)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.comment_owner = current_user
+            comment.save()
+
+            print(comments)
+
+
+        return redirect(home)
+
+    else:
+        form = CommentForm()
+
+    return render(request, 'comment.html', locals())
+
+
+def follow(request,user_id):
+    users=User.objects.get(id=user_id)
+
+    return redirect('/profile/', locals())
+
+
+def like(request, image_id):
+    current_user = request.user
+    image=Image.objects.get(id=image_id)
+    new_like,created= Likes.objects.get_or_create(liker=current_user, image=image)
+    new_like.save()
+
+    return redirect('home')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
