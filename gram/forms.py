@@ -3,6 +3,7 @@ from .models import Profile, image, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+
 class ProfileForm(forms.ModelForm):
     class meta:
         model = Profile
@@ -18,7 +19,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         exclude = ['image']
 
-class RegisterForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
     email = forms.EmailField()
     class Meta:
         model = User

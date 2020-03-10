@@ -11,7 +11,7 @@ from . import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
-
+from .forms import SignUpForm
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -126,11 +126,11 @@ def like(request, image_id):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('home')
+            return redirect('welcome')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
