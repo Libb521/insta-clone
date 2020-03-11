@@ -11,39 +11,40 @@ from . import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm
+from .forms import SignUpForm,ProfileForm,ImageForms,CommentForm
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='login/')
 def profile(request):
     # current_user = request.current_user
     if request.method == 'POST':
         form = ProfileForm(request.POST,request.FILES)
         if form.is_valid():
             profile = form.save(commit=False)
-            profile.owner = current_user
+            profile.owner = User
             profile.save()
     else:
         form=ProfileForm()
+        
     return render(request, 'concept/new.html', locals())
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='login/')
 def add_image(request):
     current_user = request.user
     if request.method == 'POST':
-        form = ImageForm(request.POST, request.FILES)
+        form = ImageForms(request.POST, request.FILES)
         if form.is_valid():
             add=form.save(commit=False)
             add.profile = current_user
             add.save()
-            return redirect('home')
+            return redirect('welcome')
     else:
-        form = ImageForm()
+        form = ImageForms()
 
 
     return render(request,'concept/image.html',locals())
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='login/')
 def home(request):
     current_user = request.user
     all_images = Image.objects.all()
@@ -67,7 +68,7 @@ def search(request):
         message = "Have not found what you are looking for"
         return render(request, 'concept/search.html', {"message":message})
 
-@login_required(login_url='accounts/login/')
+@login_required(login_url='login/')
 def display_profile(request, id):
     seekuser=User.objects.filter(id=id).first()
     profile = seekuser.profile
@@ -80,13 +81,15 @@ def display_profile(request, id):
 
     return render(request,'concept/profile.html',locals())
 
+@login_required(login_url='login/')
 def welcome(request):
     images= image.objects.all()
     return render(request, 'welcome.html',{"images":images})
 
+@login_required(login_url='login/')
 def comment(request,image_id):
     current_user=request.user
-    image = Image.objects.get(id=image_id)
+    image = Image.objects.get(pk=image_id)
     profile_owner = User.objects.get(username=current_user)
     comments = Comment.objects.all()
     print(comments)
@@ -101,27 +104,30 @@ def comment(request,image_id):
             print(comments)
 
 
-        return redirect(home)
+        return redirect('welcome')
 
     else:
         form = CommentForm()
 
-    return render(request, 'comment.html', locals())
-
+    return render(request, 'comment.html', context())
 
 def follow(request,user_id):
     users=User.objects.get(id=user_id)
 
-    return redirect('/profile/', locals())
+    return redirect('profile/', locals())
 
 
-def like(request, image_id):
-    current_user = request.user
-    image=Image.objects.get(id=image_id)
-    new_like,created= Likes.objects.get_or_create(liker=current_user, image=image)
-    new_like.save()
+def likes(request, image_id):
+    def likes(request, post_id):
+        image = Image.objects.get(pk=post_id)
+    if image.likes.filter(id=request.user.id).exists():
+        image.likes.remove(request.user)
+        is_liked = False
+    else:
+        image.likes.add(request.user)
+        is_liked = True
 
-    return redirect('home')
+    return redirect('welcome')
 
 def signup(request):
     if request.method == 'POST':

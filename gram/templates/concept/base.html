@@ -11,9 +11,7 @@
 
   {% block styles %}
   {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link href="https://fonts.googleapis.com/css?family=Jacques+Francois+Shadow|UnifrakturCook:700&display=swap"
-    rel="stylesheet">
+ 
   {% endblock %}
 
 </head>
@@ -22,11 +20,11 @@
   {% include "navbar.html" %}
 
   {% block scripts %}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
   {% bootstrap_javascript %}
   {% endblock %}
 
-  {% block body %}  <!-- HERE -->
+  {% block body %}
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="{% url 'welcome' %}">Instagram</a>

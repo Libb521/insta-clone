@@ -5,17 +5,17 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class ProfileForm(forms.ModelForm):
-    class meta:
+    class Meta:
         model = Profile
         exclude = ['User']
 
-class imageForms(forms.ModelForm):
-    class meta:
+class ImageForms(forms.ModelForm):
+    class Meta:
         model = image
-        exclude = ['profile']
+        exclude = ['profile' 'likes']
 
 class CommentForm(forms.ModelForm):
-    class meta:
+    class Meta:
         model = Comment
         exclude = ['image']
 

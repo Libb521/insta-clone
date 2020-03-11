@@ -50,6 +50,13 @@
           <li>
             <a style="font-size:18px;color:black" class="glyphicon glyphicon-off " href="/logout">Logout</a>
           </li>
+          <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+              </li>
+            </ul>
+          </div>
         </ul>
     </div>
   

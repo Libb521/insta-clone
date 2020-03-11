@@ -12,6 +12,9 @@ This is a web clone of the instagram website. A user can create an account and s
 Codebeat rating
 [![codebeat badge](https://codebeat.co/badges/a39ec926-35e8-48de-a736-bf34616d1129)](https://codebeat.co/projects/github-com-libb521-insta-clone-master)
 
+## Dbdiagram
+![](media/images/DbDiagram.png)
+
 ## SET UP INSTRUCTIONS AND INSTALLATION
 
 ### What you need

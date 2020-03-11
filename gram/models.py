@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
-    User = models.OneToOneField(User,on_delete=models.CASCADE)
+    User = models.OneToOneField(User,on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     profile_picture = models.ImageField(upload_to='images')
@@ -45,6 +45,9 @@ class image(models.Model):
         return self.image_caption
 
     def save_image(self):
+        self.save()
+    
+    def add_likes(self):
         self.save()
 
     def delete_image(self):

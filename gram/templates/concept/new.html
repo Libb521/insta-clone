@@ -1,0 +1,19 @@
+
+{% extends 'concept/base.html' %}
+
+{% load static %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+{{form.media}}
+    <div class="container">
+        <form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input type="submit" class="btn btn-outline-info btn-lg" value="post">
+        </form>
+    </div>
+
+
+{% endblock %}
