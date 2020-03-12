@@ -14,8 +14,8 @@ urlpatterns=[
     path('add_image/', views.add_image, name = 'add_image'),
     path('logout/', auth_views.LogoutView.as_view(),name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
-    # path('Comment/', auth_views.CommentView.as_view(template_name='comment.html'),name='comment'),
     path('likes/<post_id>', views.likes, name="likes"),
+    path('comment/<post_id>/', views.comment, name="comment"),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

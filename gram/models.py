@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
 class Profile(models.Model):
@@ -28,10 +30,21 @@ class Profile(models.Model):
         self.delete()
 
     @classmethod
-    def get_profile_by_username(cls, owner):
-        profiles = cls.object.filter(owner_contains=owner)
-        return profiles
+    def update_profile_picture(cls, owner):
+        cls.objects.filter(id=id).update(image=image)
+        updated_profile_picture =cls.objects.get(id=id)
+        return updates_profile_pic
 
+# Create Profile when creating a User
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+# Save Profile when saving a User
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save
 
 class image(models.Model):
     image= models.ImageField(blank=True, null=True)
@@ -39,37 +52,50 @@ class image(models.Model):
     image_caption= models.CharField(max_length=100)
     tag_someone = models.CharField(max_length=50, blank=True)
     profile= models.ForeignKey('auth.user',on_delete=models.CASCADE)
-    likes = models.PositiveIntegerField('Likes', blank=False, default=0)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     
     def __str__(self):
         return self.image_caption
 
     def save_image(self):
         self.save()
-    
-    def add_likes(self):
-        self.save()
 
     def delete_image(self):
         delete.image()
+
+    def addlikes(self):
+        self.likes.count()
+
     @classmethod
-    def get_profile_images(cls, profile):
-        images = Image.objects.filter(profile_pk=profile)
-        return images
+    def get_all_images(cls):
+        all_images = Image.objects.all()
+        for image in all_images:
+            return images
+    
+    @classmethod
+    def update_image(cls,current,new):
+        to_update = Image.objects.filter(image_name=current).update(image_name=new)
+        return to_update
+    @classmethod
+    def get_image_by_id(cls,id):
+        image_result = cls.objects.get(id=id)
+        return image_result
 
 class Comment(models.Model):
-    commented_image =  models.ForeignKey(image, on_delete=models.CASCADE)
+    image =  models.ForeignKey(image, on_delete=models.CASCADE)
     author = models.CharField(max_length=100)
-    comment_post = models.TextField()
+    comment = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.comment
 
     def save_comment(self):
         self.save()
 
     def delete_comment(self):
         delete.comment()
-    @classmethod
-    def get_profile_comments(cls, profile):
-        comments = comment.objects.filter(image_pk=profile)
-        return comments
-    def __str__(self):
-        return self.author
+
+class Follow(models.Model):
+    user = models.CharField(max_length=15)
+    follower = models.CharField(max_length=15)
+    following = models.CharField(max_length=15)

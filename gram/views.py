@@ -26,7 +26,7 @@ def profile(request):
     else:
         form=ProfileForm()
         
-    return render(request, 'concept/new.html', locals())
+    return render(request, 'concept/new_profile.html', locals())
 
 @login_required(login_url='login/')
 def add_image(request):
@@ -34,9 +34,9 @@ def add_image(request):
     if request.method == 'POST':
         form = ImageForms(request.POST, request.FILES)
         if form.is_valid():
-            add=form.save(commit=False)
-            add.profile = current_user
-            add.save()
+            image=form.save(commit=False)
+            image.profile = current_user
+            image.save()
             return redirect('welcome')
     else:
         form = ImageForms()
@@ -51,8 +51,9 @@ def home(request):
     comments = Comment.objects.all()
     likes = Likes.objects.all
     profile = Profile.objects.all()
+    images = image.objects.filter(profile__id=current_user.id)
     print(likes)
-    return render(request,'home.html',locals())
+    return render(request,'welcome.html',locals(), {"images": images})
 
 def search(request):
     profiles = User.objects.all()

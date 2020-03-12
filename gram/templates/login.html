@@ -5,28 +5,42 @@
 
 {% block body %}
   <div class="container">
-    <h1 class="text-center logo my-4">
-      <a href="{% url 'welcome' %}"> My Insta </a>
-    </h1>
-    <div class="row justify-content-center">
-      <div class="col-lg-4 col-md-6 col-sm-8">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Log in</h3>
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <img class='phone'
+          src="https://www.digitalmarketingceo.com/wp-content/uploads/2018/09/Screen-Shot-2018-09-03-at-11.05.04-PM-e1536030535339.png"
+          width="550px" alt="Image" />
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-5">
+  
+        <div class="panel-body">
+          {% if form.errors %}
+          <p> Password or Username is incorrect </p>
+          {% endif %}
+          <div class="panel panel-default" id='reg'>
+  
+            <div class="panel-heading">
+              <img
+                src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png'
+                width='350px'>
+            </div>
+            <div class="panel-body">
+  
             <form method="post" novalidate>
               {% csrf_token %}
               {% include 'includes/form.html' %}
               <button type="submit" class="btn btn-primary btn-block">Log in</button>
             </form>
+            </div><br><br><br>
+            <div class="panel-footer">
+                  <small class='text-muted'>
+                    New here?<a class='ml-2' href="{% url 'signup' %}">&nbsp;&nbsp;Signup</a>
+                  </small>
+                </div> <a href="{% url 'signup' %}">Sign up</a>
+          
+  
           </div>
-          <div class="card-footer text-muted text-center">
-            New here? <a href="{% url 'signup' %}">Sign up</a>
-          </div>
-        </div>
-        <div class="text-center py-2">
-          <small>
-            <a href="#" class="text-muted">Forgot your password?</a>
-          </small>
+  
         </div>
       </div>
     </div>

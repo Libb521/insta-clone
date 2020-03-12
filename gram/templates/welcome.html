@@ -1,14 +1,14 @@
 {% extends 'concept/base.html' %}
 {% load bootstrap3 %}
+{{ block.super }}
 
 {% load crispy_forms_tags %}
-<h1 class="text-center">Insta-Clone</h1>
-
-<img src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-
 {% block content %}
+<body>
+    <div style="margin-top: 100px;" class="container">
+<br>
 <div class="album py-5">
-    <h1 style="text-align: center; font-size: 80px; font-family: Righteous; color: rgb(255, 179, 0)   ;"> Insta-Clone
+    <h1 style="text-align: center; font-size: 80px; font-family: Righteous; color: rgb(255, 179, 0);"> Insta-Clone
     </h1>
     <br>
     <div class="container" style="font-family: ABeeZee;">
@@ -17,15 +17,27 @@
 
             <div class="container">
                 <div class="rows">
-                    <div class="card" style="width: 18rem;">
-                        <img src="{{image.image.url}}" alt="img">
+                    <div class="card-body">
+                        <h5 class="card-title">{{image.image_name}}</h5>        
+                    </div>
+                    <div class="card" style="width: 18rem; color: black;"href="profile/{{image.owner.id}}"></div>
+                        <p><img class="post" src="{{image.profile.profile_picture.url}}" height="100px" width="100px" style="border-radius: 50%; width:50px; height:50px; border-color: rgb(226, 67, 19); border-width: 1px;"><strong>{{image.owner}}</strong></p> 
+                        <div class="card mb-4 shadow-sm" style="background-color: rgb(41, 41, 41);">   
+                        <img style="width: 100vh;" src="{{image.image.url}}" alt="img"> 
+                    </div>                    
+
                         <div class="card-body">
                             <h5 class="card-title">{{image.image_caption}}</h5>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>                        <div class="card-body">
+                            <h5 class="card-title">{{image.likes}}</h5>
                         </div>
-                        <div>
-                            <h5 class="card-title">{{image.commented_image}}</h5>
-                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{comment_form|crispy}}
+                            <input type="submit" class="btn btn-info" value="Comment">
+                        </form>
+
+
                         <div class="count">
                             {% if image.likes.id %}
                             <a class="text-danger ml-3" href="{% url 'likes' post.id%}"><i
@@ -36,25 +48,13 @@
                             </a>
                             {% endif %}
                         </div>
-                    </div>
                 </div>
             </div>
-            {% endfor %}
+         {% endfor %}
 
         </div>
     </div>
 </div>
 </div>
-</div>
-</div>
-
-
-</div>
-
-<h2>No images. Follow people to see their images</h2>
-<p><a href="{% url 'upload_image' %}">Add Image</a></p>
-
-</div>
-</div>
-</div>
+</body>
 {% endblock %}
