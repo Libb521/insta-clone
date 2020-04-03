@@ -14,9 +14,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm,ProfileForm,ImageForms,CommentForm
 
 # Create your views here.
-@login_required(login_url='login/')
+# @login_required(login_url='login/')
 def profile(request):
-    # current_user = request.current_user
+    current_user = request.user
     if request.method == 'POST':
         form = ProfileForm(request.POST,request.FILES)
         if form.is_valid():
@@ -28,14 +28,14 @@ def profile(request):
         
     return render(request, 'concept/new_profile.html', locals())
 
-@login_required(login_url='login/')
+# @login_required(login_url='login/')
 def add_image(request):
     current_user = request.user
     if request.method == 'POST':
         form = ImageForms(request.POST, request.FILES)
         if form.is_valid():
             image=form.save(commit=False)
-            image.profile = current_user
+            image.uploaded_by = current_user
             image.save()
             return redirect('welcome')
     else:
@@ -44,7 +44,7 @@ def add_image(request):
 
     return render(request,'concept/image.html',locals())
 
-@login_required(login_url='login/')
+# @login_required(login_url='login/')
 def home(request):
     current_user = request.user
     all_images = Image.objects.all()
@@ -53,7 +53,7 @@ def home(request):
     profile = Profile.objects.all()
     images = image.objects.filter(profile__id=current_user.id)
     print(likes)
-    return render(request,'welcome.html',locals(), {"images": images})
+    return render(request,'welcome.html', {'user':current_user, 'images':all-images, 'comments':comments, 'likes':likes})
 
 def search(request):
     profiles = User.objects.all()
@@ -69,7 +69,21 @@ def search(request):
         message = "Have not found what you are looking for"
         return render(request, 'concept/search.html', {"message":message})
 
-@login_required(login_url='login/')
+# @login_required(login_url='login')
+def upload_form(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.uploaded_by = current_user
+            image.save()
+            return redirect('home')
+    else:
+        form = UploadForm()
+    return render(request, 'upload_image.html', {'form': form})
+
+# @login_required(login_url='login/')
 def display_profile(request, id):
     seekuser=User.objects.filter(id=id).first()
     profile = seekuser.profile
@@ -82,12 +96,12 @@ def display_profile(request, id):
 
     return render(request,'concept/profile.html',locals())
 
-@login_required(login_url='login/')
+# @login_required(login_url='login/')
 def welcome(request):
     images= image.objects.all()
     return render(request, 'welcome.html',{"images":images})
 
-@login_required(login_url='login/')
+# @login_required(login_url='login/')
 def comment(request,image_id):
     current_user=request.user
     image = Image.objects.get(pk=image_id)
@@ -135,7 +149,6 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
             return redirect('welcome')
     else:
         form = SignUpForm()
